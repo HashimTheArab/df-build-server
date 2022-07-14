@@ -43,15 +43,17 @@ func main() {
 	}
 
 	// this is the loop to accept players, basically a join event
-	for srv.Accept(func(p *player.Player) {
-		p.Handle(&Handler{
-			p: p,
-			w: we.NewHandler(p),
-		})
-		p.ShowCoordinates()
-	}) {
-		// continue
+	for srv.Accept(acceptPlayer) {
 	}
+}
+
+// handleJoin is a join event, this code is ran for each player that joins the server.
+func acceptPlayer(p *player.Player) {
+	p.Handle(&Handler{
+		p: p,
+		w: we.NewHandler(p),
+	})
+	p.ShowCoordinates()
 }
 
 // readConfig reads the configuration from the config.toml file, or creates the file if it does not yet exist.
